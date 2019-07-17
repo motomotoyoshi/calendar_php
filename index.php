@@ -1,4 +1,13 @@
 <?php
+
+  $tail = '';
+  $lastDayOfPrevMonth = new DateTime('last day of previous month');
+  while ($lastDayOfPrevMonth->format('w') < 6) {
+    $tail = sprintf('<td class="gray">%d</td>', $lastDayOfPrevMonth->format('d')) . $tail;
+    $lastDayOfPrevMonth->sub(new DateInterval('P1D'));
+  }
+
+
   $body = '';
   $period = new DatePeriod(
     new DateTime('first day of this month'),
@@ -17,6 +26,8 @@
    $head .= sprintf('<td class="gray">%d</td>', $firstDayOfNextMonth->format('d')); 
    $firstDayOfNextMonth->add(new DateInterval('P1D'));
   }
+
+  $html = '<tr>' . $tail . $body . $head . '</tr>';
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -46,25 +57,7 @@
         <td>Fri</td>
         <td>Sat</td>
       </tr>
-      <tr>
-        <?php echo $body . $head; ?>
-        <!-- <td class="youbi_0">1</td>
-        <td class="youbi_1">2</td>
-        <td class="youbi_2">3</td>
-        <td class="youbi_3">4</td>
-        <td class="youbi_4 today">5</td>
-        <td class="youbi_5">6</td>
-        <td class="youbi_6">7</td>
-      </tr>
-      <tr>
-        <td class="youbi_0">30</td>
-        <td class="youbi_1">31</td>
-        <td class="gray">1</td>
-        <td class="gray">2</td>
-        <td class="gray">3</td>
-        <td class="gray">4</td>
-        <td class="gray">5</td> -->
-      </tr>
+      <?php echo $html; ?>
     </tbody>
     <tfoot>
       <tr>

@@ -1,14 +1,32 @@
 <?php
+  $body = '';
+  $period = new DatePeriod(
+    new DateTime('first day of this month'),
+    new DateInterval('P1D'),
+    new DateTime('first day of next month')
+  );
 
+  foreach ($period as $day) {
+    if ($day->format('w') % 7 === 0) { $body .= '</tr><tr>'; }
+    $body .= sprintf('<td class="youbi_%d">%d</td>', $day->format('w'), $day->format('d'));
+  }
+
+  $head ='';
+  $firstDayOfNextMonth = new DateTime('first day of next month');
+  while ($firstDayOfNextMonth->format('w') > 0) {
+   $head .= sprintf('<td class="gray">%d</td>', $firstDayOfNextMonth->format('d')); 
+   $firstDayOfNextMonth->add(new DateInterval('P1D'));
+  }
 ?>
 <!DOCTYPE html>
 <html lang="ja">
 
 <head>
   <meta charset="UTF-8">
-  <title>Calender</title>
+  <title>Calendar</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <table>
     <thead>
@@ -29,7 +47,8 @@
         <td>Sat</td>
       </tr>
       <tr>
-        <td class="youbi_0">1</td>
+        <?php echo $body . $head; ?>
+        <!-- <td class="youbi_0">1</td>
         <td class="youbi_1">2</td>
         <td class="youbi_2">3</td>
         <td class="youbi_3">4</td>
@@ -44,11 +63,13 @@
         <td class="gray">2</td>
         <td class="gray">3</td>
         <td class="gray">4</td>
-        <td class="gray">5</td>
+        <td class="gray">5</td> -->
       </tr>
     </tbody>
     <tfoot>
-      <th colspan="7"><a href="">Today</a></th>
+      <tr>
+        <th colspan="7"><a href="">Today</a></th>
+      </tr>
     </tfoot>
   </table>
 </body>

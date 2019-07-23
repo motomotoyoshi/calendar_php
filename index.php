@@ -37,7 +37,7 @@
         <td>Fri</td>
         <td>Sat</td>
       </tr>
-      <?php $cal-show(); ?>
+      <?php $cal->show(); ?>
     </tbody>
     <tfoot>
       <tr>
